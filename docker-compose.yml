@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: quickpad-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=quickpad
+    networks:
+      - quickpad-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/quickpad --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: quickpad-server
+    restart: unless-stopped
+    ports:
+      - "5030:5030"
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - NODE_ENV=development
+      - MONGODB_URL=mongodb://mongodb:27017/quickpad
+      - PORT=5030
+      - CLIENT_URL=http://localhost:5173
+      - JWT_SECRET=${JWT_SECRET:-your-secret-key-change-in-production}
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - quickpad-network
+    command: npm run dev
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: quickpad-frontend
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://localhost:5030
+      - VITE_SOCKET_URL=http://localhost:5030
+    depends_on:
+      - server
+    networks:
+      - quickpad-network
+    command: npm run dev -- --host
+
+networks:
+  quickpad-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local
+
