@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: quickpad-backend
+  labels:
+    app: quickpad-backend
+spec:
+  type: ClusterIP
+  sessionAffinity: ClientIP  # Important for Socket.IO sticky sessions
+  ports:
+  - port: 5030
+    targetPort: 5030
+    protocol: TCP
+  selector:
+    app: quickpad-backend
+

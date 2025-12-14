@@ -84,5 +84,72 @@ npm run dev
 
 6. Open your browser to `http://localhost:5173`
 
+## ☁️ GCP Cloud Deployment
+
+This project is configured for deployment on Google Cloud Platform to meet CMPE 48A requirements.
+
+### Architecture Components
+
+- **Frontend**: React app deployed on GKE (Kubernetes)
+- **Backend**: Express.js + Socket.IO deployed on GKE with HPA (Horizontal Pod Autoscaler)
+- **Database**: MongoDB on Compute Engine VM
+- **Serverless**: Cloud Functions for cleanup and analytics
+- **Load Testing**: Locust scripts for performance evaluation
+
+### Quick Start Deployment
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
+
+**Quick commands:**
+```bash
+# Build and push Docker images
+./scripts/build-and-push.sh YOUR_PROJECT_ID https://your-domain.com
+
+# Deploy to Kubernetes
+./scripts/deploy-k8s.sh YOUR_PROJECT_ID
+
+# Deploy Cloud Functions
+./scripts/deploy-functions.sh YOUR_PROJECT_ID "mongodb://..." us-central1
+```
+
+### Project Structure
+
+```
+quickpad/
+├── frontend/              # React frontend application
+├── server/                # Express.js backend API
+├── docker/                # Dockerfiles for containerization
+├── k8s/                   # Kubernetes manifests
+│   ├── frontend-deployment.yaml
+│   ├── backend-deployment.yaml
+│   ├── backend-hpa.yaml   # Horizontal Pod Autoscaler
+│   └── ingress.yaml
+├── cloud-functions/       # Serverless functions
+│   ├── cleanup-notes/     # Expired notes cleanup
+│   └── analytics/         # Analytics processing
+├── vm-scripts/            # MongoDB VM setup scripts
+├── locust/                # Performance testing scripts
+├── terraform/             # Infrastructure as Code (bonus)
+└── scripts/               # Deployment automation scripts
+```
+
+### Performance Testing
+
+Run Locust load tests:
+```bash
+cd locust
+pip install -r requirements.txt
+./run-locust.sh https://your-domain.com 100 10 5m
+```
+
+### Requirements Met
+
+✅ **Containerized workloads on Kubernetes** - Frontend and backend deployed on GKE  
+✅ **Virtual Machines** - MongoDB on Compute Engine VM  
+✅ **Serverless Functions** - Cloud Functions for cleanup and analytics  
+✅ **Scalable deployment** - HPA configured for auto-scaling  
+✅ **Performance testing** - Locust scripts included  
+✅ **Infrastructure as Code** - Terraform configuration (bonus)
+
 ## License
 MIT License - see the [LICENSE](LICENSE) file for details.

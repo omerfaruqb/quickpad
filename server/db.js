@@ -2,7 +2,11 @@ import mongoose from "mongoose";
 
 async function connectDB() {
     try {
-        await mongoose.connect(process.env.MONGODB_URL || 'mongodb+srv://Zworking:sidhu123@cluster0.muuu2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
+        const mongoUrl = process.env.MONGODB_URL;
+        if (!mongoUrl) {
+            throw new Error('MONGODB_URL environment variable is required');
+        }
+        await mongoose.connect(mongoUrl);
         console.log('✅ DB connected...');
     } catch (error) {
         console.error('❌ DB connection failed:', error.message);

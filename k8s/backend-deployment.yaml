@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quickpad-backend
+  labels:
+    app: quickpad-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: quickpad-backend
+  template:
+    metadata:
+      labels:
+        app: quickpad-backend
+    spec:
+      containers:
+      - name: backend
+        image: gcr.io/YOUR_PROJECT_ID/quickpad-backend:latest
+        ports:
+        - containerPort: 5030
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: PORT
+          value: "5030"
+        - name: MONGODB_URL
+          valueFrom:
+            secretKeyRef:
+              name: quickpad-secrets
+              key: mongodb-url
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: quickpad-secrets
+              key: jwt-secret
+        - name: CLIENT_URL
+          valueFrom:
+            configMapKeyRef:
+              name: quickpad-config
+              key: client-url
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 5030
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 5030
+          initialDelaySeconds: 10
+          periodSeconds: 5
+

@@ -1,0 +1,13 @@
+{
+  "name": "cleanup-notes-function",
+  "version": "1.0.0",
+  "description": "Cloud Function to cleanup expired notes",
+  "main": "index.js",
+  "dependencies": {
+    "mongodb": "^6.0.0"
+  },
+  "engines": {
+    "node": "20"
+  }
+}
+

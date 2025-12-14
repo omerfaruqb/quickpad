@@ -1,0 +1,8 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: quickpad-ssl-cert
+spec:
+  domains:
+    - your-domain.com  # Update with your domain
+

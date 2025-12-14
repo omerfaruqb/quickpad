@@ -1,0 +1,13 @@
+{
+  "name": "analytics-function",
+  "version": "1.0.0",
+  "description": "Cloud Function to process analytics",
+  "main": "index.js",
+  "dependencies": {
+    "mongodb": "^6.0.0"
+  },
+  "engines": {
+    "node": "20"
+  }
+}
+

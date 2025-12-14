@@ -1,0 +1,11 @@
+{
+  "name": "send-email-function",
+  "version": "1.0.0",
+  "description": "Cloud Function to send welcome emails",
+  "main": "index.js",
+  "dependencies": {},
+  "engines": {
+    "node": "20"
+  }
+}
+

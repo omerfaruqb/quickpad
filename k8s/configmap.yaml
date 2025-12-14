@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: quickpad-config
+data:
+  client-url: "https://your-domain.com"  # Update with your actual domain
+  api-timeout: "30000"
+
