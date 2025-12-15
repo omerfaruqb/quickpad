@@ -39,7 +39,7 @@ mongosh <<EOF
 use admin
 db.createUser({
   user: "quickpad",
-  pwd: "CHANGE_THIS_PASSWORD_IN_PRODUCTION",
+  pwd: "quickpad_mongo_password",
   roles: [{ role: "readWrite", db: "quickpad" }]
 })
 EOF
@@ -54,7 +54,6 @@ EOF
 echo "✅ MongoDB setup complete!"
 echo ""
 echo "📝 Next steps:"
-echo "1. Change the password in the script and re-run the user creation"
 echo "2. Update your Kubernetes secrets with the MongoDB connection string:"
 echo "   mongodb://quickpad:PASSWORD@INTERNAL_IP:27017/quickpad"
 echo "3. Get the internal IP with: curl -H 'Metadata-Flavor: Google' http://169.254.169.254/computeMetadata/v1/instance/network-interfaces/0/ip"

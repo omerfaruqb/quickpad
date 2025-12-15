@@ -2,8 +2,8 @@
 # Firewall setup script for MongoDB VM
 # Run this from your local machine or Cloud Shell
 
-PROJECT_ID="YOUR_PROJECT_ID"  # Update this
-ZONE="us-central1-a"  # Update to match your VM zone
+PROJECT_ID="cmpe48a-quickpad"  # Update this
+ZONE="europe-west1-b"  # Update to match your VM zone
 
 echo "🔥 Setting up firewall rules for MongoDB..."
 

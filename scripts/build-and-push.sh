@@ -22,7 +22,7 @@ gcloud auth configure-docker --quiet
 # Build and push frontend
 echo "📦 Building frontend image..."
 docker build -f docker/frontend.Dockerfile \
-  --build-arg VITE_API_URL="$FRONTEND_URL/api" \
+  --build-arg VITE_API_URL="$FRONTEND_URL" \
   --build-arg VITE_SOCKET_URL="$FRONTEND_URL" \
   -t gcr.io/$PROJECT_ID/quickpad-frontend:latest \
   -t gcr.io/$PROJECT_ID/quickpad-frontend:$(git rev-parse --short HEAD) \

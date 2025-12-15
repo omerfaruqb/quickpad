@@ -4,5 +4,5 @@ metadata:
   name: quickpad-ssl-cert
 spec:
   domains:
-    - your-domain.com  # Update with your domain
+    - faruq.xyz  # Update with your domain
 

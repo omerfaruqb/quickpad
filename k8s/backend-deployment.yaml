@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: gcr.io/YOUR_PROJECT_ID/quickpad-backend:latest
+        image: gcr.io/cmpe48a-quickpad/quickpad-backend:latest
         ports:
         - containerPort: 5030
         env:
@@ -41,11 +41,8 @@ spec:
               key: client-url
         resources:
           requests:
-            cpu: "100m"
-            memory: "256Mi"
-          limits:
-            cpu: "500m"
-            memory: "512Mi"
+            cpu: "50m"
+            memory: "128Mi"
         livenessProbe:
           httpGet:
             path: /api/health
