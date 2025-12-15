@@ -5,6 +5,7 @@ import express from 'express';
 import cors from 'cors';
 import { Server } from 'socket.io';
 import authRoutes from './routes/authRoutes.js';
+import healthRoutes from './routes/healthRoutes.js';
 import { NoteController } from './controllers/noteController.js';
 import { createNoteRoutes } from './routes/noteRoutes.js';
 import { createPasswordRoutes } from './routes/passwordRoutes.js';
@@ -29,6 +30,7 @@ console.log('Database connection established');
 const noteController = new NoteController();
 
 // Setup routes
+app.use('/api', healthRoutes);
 app.use('/api/auth', authRoutes);
 app.use(createPasswordRoutes(noteController));
 app.use(createNoteRoutes(noteController));
@@ -52,12 +54,6 @@ const io = new Server(expressServer, {
 // Setup Socket.IO events
 setupNoteSocket(io, noteController);
 
-// Clean up expired notes every hour
-setInterval(async () => {
-  try {
-    await noteController.cleanupExpiredNotes();
-    console.log('🧹 Expired notes cleaned up');
-  } catch (error) {
-    console.error('❌ Error cleaning up expired notes:', error);
-  }
-}, 60 * 60 * 1000);
+// Note: Expired notes cleanup is now handled by Cloud Functions
+// The cleanup interval has been moved to cloud-functions/cleanup-notes
+// This reduces server load and follows serverless best practices

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quickpad-frontend
+  labels:
+    app: quickpad-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: quickpad-frontend
+  template:
+    metadata:
+      labels:
+        app: quickpad-frontend
+    spec:
+      containers:
+      - name: frontend
+        image: gcr.io/cmpe48a-quickpad/quickpad-frontend:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: "25m"
+            memory: "64Mi"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+

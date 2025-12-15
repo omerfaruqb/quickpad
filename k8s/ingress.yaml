@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: quickpad-ingress
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.global-static-ip-name: "quickpad-ip"  # Optional: reserve static IP first
+    networking.gke.io/managed-certificates: "quickpad-ssl-cert"
+    kubernetes.io/ingress.allow-http: "true"
+spec:
+  rules:
+  - host: faruq.xyz
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: quickpad-frontend
+            port:
+              number: 80
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: quickpad-backend
+            port:
+              number: 5030
+      - path: /socket.io
+        pathType: Prefix
+        backend:
+          service:
+            name: quickpad-backend
+            port:
+              number: 5030
+

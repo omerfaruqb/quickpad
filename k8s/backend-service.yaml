@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: quickpad-backend
+  labels:
+    app: quickpad-backend
+  annotations:
+    cloud.google.com/backend-config: '{"default": "quickpad-backend-config"}'
+    cloud.google.com/neg: '{"ingress": true}'
+spec:
+  type: ClusterIP
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 3600
+  ports:
+  - port: 5030
+    targetPort: 5030
+    protocol: TCP
+  selector:
+    app: quickpad-backend
